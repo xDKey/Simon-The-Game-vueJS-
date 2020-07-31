@@ -1,31 +1,33 @@
 <template>
   <div id="app">
     <h1>Simon The Game</h1>
+    <button class='startButton'
+    @click='this.startGame'>Start Game</button>
     <div class='gameField'>
       <Square 
        :props="{
-        id: 'r',
+        id: '1',
         color: 'red'
       }"
        @choise='this.choise'/>      
 
       <Square 
        :props="{
-        id: 'g',
+        id: '2',
         color: 'green'
       }"
        @choise='this.choise'/>      
       
       <Square 
        :props="{
-        id: 'b',
+        id: '3',
         color: 'blue'
       }"
        @choise='this.choise'/>      
       
       <Square 
        :props="{
-        id: 'y',
+        id: '4',
         color: 'yellow'
       }"
        @choise='this.choise'/>
@@ -49,11 +51,18 @@ export default {
     Square,
   },
   methods:{
-    check(){
-      console.log(this)
-    },
     choise(id){
       console.log(id)
+    },
+    startGame(){
+      this.computer = [];
+      this.player = [];
+      this.round();
+    },
+    round(){
+      let round = 0;
+      let idx = Math.floor(Math.random() * (5 - 1) + 1);
+      this.computer.push(idx);
     }
   }
 }
@@ -73,5 +82,16 @@ export default {
   height: 250px;
   display: flex;
   flex-wrap: wrap;
+}
+.startButton{
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
 }
 </style>

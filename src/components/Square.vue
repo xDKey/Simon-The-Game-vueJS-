@@ -25,5 +25,6 @@ export default {
   width: 100px;
   height: 100px;
   margin: 10px;
+  cursor: pointer;
 }
 </style>
