@@ -1,17 +1,60 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Simon The Game</h1>
+    <div class='gameField'>
+      <Square 
+       :props="{
+        id: 'r',
+        color: 'red'
+      }"
+       @choise='this.choise'/>      
+
+      <Square 
+       :props="{
+        id: 'g',
+        color: 'green'
+      }"
+       @choise='this.choise'/>      
+      
+      <Square 
+       :props="{
+        id: 'b',
+        color: 'blue'
+      }"
+       @choise='this.choise'/>      
+      
+      <Square 
+       :props="{
+        id: 'y',
+        color: 'yellow'
+      }"
+       @choise='this.choise'/>
+
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Square from './components/Square';
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data() {
+    return{
+      computer: [],
+      player: [],
+    }
+  },
+  components:{
+    Square,
+  },
+  methods:{
+    check(){
+      console.log(this)
+    },
+    choise(id){
+      console.log(id)
+    }
   }
 }
 </script>
@@ -19,10 +62,16 @@ export default {
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.gameField{
+  width: 250px;
+  height: 250px;
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>
