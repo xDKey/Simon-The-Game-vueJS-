@@ -1,3 +1,3 @@
 module.exports = {
-    publicPath: '/Simon-The-Game-vueJS-/'
+    publicPath: '/Simon-The-Game-vueJS-/dist/'
     }
