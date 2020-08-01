@@ -2,37 +2,42 @@
   <div id="app">
     <h1>Simon The Game</h1>
     <button class='startButton'
-    @click='this.startGame'>Start Game</button>
+    @click='this.startGame'>{{this.buttonText}}</button>
     <div class='gameField'>
       <Square 
        :props="{
         id: '1',
         color: 'red'
       }"
-       @choise='this.choise'/>      
+       @choise='this.choise'
+       :class='{bigger: isBigger[1]}'/>      
 
       <Square 
        :props="{
         id: '2',
         color: 'green'
       }"
-       @choise='this.choise'/>      
+       @choise='this.choise'
+       :class='{bigger: isBigger[2]}'/>      
       
       <Square 
        :props="{
         id: '3',
         color: 'blue'
       }"
-       @choise='this.choise'/>      
+       @choise='this.choise'
+       :class='{bigger: isBigger[3]}'/>      
       
       <Square 
        :props="{
         id: '4',
         color: 'yellow'
       }"
-       @choise='this.choise'/>
+       @choise='this.choise'
+       :class='{bigger: isBigger[4]}'/>
 
     </div>
+    <span class='scores'>Scores: {{this.score}}</span>
   </div>
 </template>
 
@@ -43,8 +48,19 @@ export default {
   name: 'App',
   data() {
     return{
+      buttonText: 'Start Game',
+      playing: false,
       computer: [],
       player: [],
+      isClickable: false,
+      interval: null,
+      score: 0,
+      isBigger: {
+        1: false,
+        2: false,
+        3: false,
+        4: false,
+      }
     }
   },
   components:{
@@ -52,17 +68,54 @@ export default {
   },
   methods:{
     choise(id){
-      console.log(id)
+      if (this.isClickable){
+        this.player.push(id);
+        this.bigger(id);
+        this.isWinner()
+      }
+    },
+    bigger(id){
+      this.isBigger[id] = true;
+      setTimeout(() => {this.isBigger[id] = false}, 300)
+    },
+    isWinner(){
+      for (let i = 0; i < this.player.length; i++){
+        if (this.player[i] != this.computer[i]) {
+          this.isClickable = false;
+          this.buttonText = 'You Lose! Play again?';
+          return null
+        }
+        if (this.player.length == this.computer.length) {
+          this.player = [];
+          this.score++;
+          this.round();
+        }
+      }
     },
     startGame(){
+      this.playing = true;
       this.computer = [];
       this.player = [];
+      this.score = 0;
+      this.buttonText = 'Reset';
+      clearInterval(this.interval);
       this.round();
     },
     round(){
       let round = 0;
+      this.isClickable = false;
       let idx = Math.floor(Math.random() * (5 - 1) + 1);
       this.computer.push(idx);
+      console.log(this.computer);
+      this.interval = setInterval(() => {
+        if(round >= this.computer.length){
+          clearInterval(this.interval);
+          return (this.isClickable = true);
+        }
+        this.bigger(this.computer[round]);
+        round++;
+      }, 700 ) 
+
     }
   }
 }
@@ -93,5 +146,8 @@ export default {
     display: inline-block;
     margin: 4px 2px;
     cursor: pointer;
+}
+.bigger{
+  transform: scale(1.2);
 }
 </style>
