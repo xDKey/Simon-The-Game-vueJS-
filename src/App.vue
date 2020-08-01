@@ -55,6 +55,12 @@ export default {
       isClickable: false,
       interval: null,
       score: 0,
+      sounds: [
+       new Audio(require('./assets/1.mp3')),
+       new Audio(require('./assets/2.mp3')),
+       new Audio(require('./assets/3.mp3')),
+       new Audio(require('./assets/4.mp3')),
+      ],    
       isBigger: {
         1: false,
         2: false,
@@ -70,9 +76,13 @@ export default {
     choise(id){
       if (this.isClickable){
         this.player.push(id);
+        this.playSound(id);
         this.bigger(id);
         this.isWinner()
       }
+    },
+    playSound(id){
+        this.sounds[id-1].play();
     },
     bigger(id){
       this.isBigger[id] = true;
@@ -112,6 +122,7 @@ export default {
           clearInterval(this.interval);
           return (this.isClickable = true);
         }
+        this.playSound(this.computer[round]);
         this.bigger(this.computer[round]);
         round++;
       }, 700 ) 
