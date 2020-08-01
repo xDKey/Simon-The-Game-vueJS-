@@ -127,8 +127,7 @@ export default {
       let round = 0;
       let speed = this.computer.length == 0 ? 1000 : this.difficult;
       this.isClickable = false;
-      // let idx = Math.floor(Math.random() * (5 - 1) + 1);
-      let idx = 2;
+      let idx = Math.floor(Math.random() * (5 - 1) + 1);
       this.computer.push(idx);
       this.interval = setInterval(() => {
         if(round >= this.computer.length){
