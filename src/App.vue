@@ -37,7 +37,18 @@
        :class='{bigger: isBigger[4]}'/>
 
     </div>
-    <span class='scores'>Scores: {{this.score}}</span>
+    <span>Scores: {{this.score}}</span>
+      <form>Difficult:
+      <label>
+        <input name='dif' type='radio' value='1500' v-model='difficult'> Easy
+      </label>
+      <label>
+        <input name='dif' type='radio' value='1000' v-model='difficult'> Normal
+      </label>
+      <label>
+        <input name='dif' type='radio' value='450' v-model='difficult'> Hard
+      </label>
+    </form>
   </div>
 </template>
 
@@ -49,6 +60,7 @@ export default {
   data() {
     return{
       buttonText: 'Start Game',
+      difficult: 1000,
       playing: false,
       computer: [],
       player: [],
@@ -76,8 +88,8 @@ export default {
     choise(id){
       if (this.isClickable){
         this.player.push(id);
-        this.playSound(id);
         this.bigger(id);
+        this.playSound(id);
         this.isWinner()
       }
     },
@@ -98,7 +110,7 @@ export default {
         if (this.player.length == this.computer.length) {
           this.player = [];
           this.score++;
-          this.round();
+          setTimeout(() => {this.round()}, 1000);
         }
       }
     },
@@ -113,19 +125,20 @@ export default {
     },
     round(){
       let round = 0;
+      let speed = this.computer.length == 0 ? 1000 : this.difficult;
       this.isClickable = false;
-      let idx = Math.floor(Math.random() * (5 - 1) + 1);
+      // let idx = Math.floor(Math.random() * (5 - 1) + 1);
+      let idx = 2;
       this.computer.push(idx);
-      console.log(this.computer);
       this.interval = setInterval(() => {
         if(round >= this.computer.length){
           clearInterval(this.interval);
           return (this.isClickable = true);
         }
-        this.playSound(this.computer[round]);
         this.bigger(this.computer[round]);
+        this.playSound(this.computer[round]);
         round++;
-      }, 700 ) 
+      }, speed ) 
 
     }
   }
